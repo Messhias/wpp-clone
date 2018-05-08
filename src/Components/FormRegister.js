@@ -8,6 +8,13 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
+import {
+    changeEmail,
+    changePassword,
+    changeName
+} from '../Actions/AuthActions';
+
+
 const frmRegister = props => (
     <View style={{ flex: 1, padding:10 }}>
 
@@ -16,16 +23,19 @@ const frmRegister = props => (
                 placeholder="Name"
                 style={{ fontSize: 20, height: 45}}
                 value={props.name}
+                onChangeText={name => props.changeName(name)}
             />
             <TextInput
                 placeholder="E-mail"
                 style={{ fontSize: 20, height: 45}}
                 value={props.email}
+                onChangeText={email => props.changeEmail(email)}
             />
             <TextInput
                 placeholder="Password"
                 style={{ fontSize: 20, height: 45}}
                 value={props.password}
+                onChangeText={pass => props.changePassword(pass)}
             />
         </View>
 
@@ -48,4 +58,8 @@ const mapStateToProps = state => (
     }
 )
 
-export default connect(mapStateToProps, null)(frmRegister);
+export default connect(mapStateToProps, {
+    changeName,
+    changePassword,
+    changeEmail
+})(frmRegister);
