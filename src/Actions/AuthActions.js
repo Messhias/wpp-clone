@@ -50,7 +50,7 @@ export const registerUser = ({ name, email, password }) => {
         dispatch({
             type: LOADING
         });
-        
+
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then((user) => {
                 let emailB64 = b64.encode(email);
