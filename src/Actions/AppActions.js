@@ -15,7 +15,8 @@ import _ from 'lodash';
 import {
     CHANGE_ADD_CONTACT_EMAIL,
     ADD_NEW_CONTACT,
-    ADD_NEW_CONTACT_ERROR
+    ADD_NEW_CONTACT_ERROR,
+    ADD_CONTACT_SUCCESS
 } from './Types';
 
 export const changeAddContactEmail = email => {
@@ -45,11 +46,10 @@ export const AddContact = (email) => {
                         name: userData.name
                     })
                     .then((response) => {
-
+                        addContactSuccess(dispatch);
                     })
-                    .catch((err) => {
+                    .catch((err) => { addContactError(err.message, dispatch); });
 
-                    })
             } else {
                 dispatch({
                     type: ADD_NEW_CONTACT_ERROR,
@@ -58,5 +58,25 @@ export const AddContact = (email) => {
             }
         });
     }
-
 }
+
+const addContactError = (error, dispatch) => {
+    dispatch({
+        type: ADD_NEW_CONTACT_ERROR,
+        payload: error
+    });
+}
+
+const addContactSuccess = dispatch => {
+    dispatch ({
+        type: ADD_CONTACT_SUCCESS,
+        payload: true
+    });
+}
+
+export const enableAddNewContact = () => (
+    {
+        type: ADD_CONTACT_SUCCESS,
+        payload: false
+    }
+)

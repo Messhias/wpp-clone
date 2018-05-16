@@ -8,8 +8,10 @@ import {
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { TabBar } from 'react-native-tab-view';
+import { connect } from 'react-redux';
+import { enableAddNewContact } from '../../Actions/AppActions';
 
-export default props => (
+const TabBarMenu = props => (
     <View
       style={{
           marginTop: 20,
@@ -57,7 +59,10 @@ export default props => (
 					}}
 			 	>
 					<TouchableHighlight
-						onPress={() => Actions.AddContact()}
+						onPress={() => {
+                            Actions.AddContact();
+                            props.enableAddNewContact();
+                        }}
 						underlayColor='#114D44'
 					>
 			            <Image
@@ -91,3 +96,6 @@ export default props => (
         />
     </View>
 );
+
+
+export default connect(null, { enableAddNewContact })(TabBarMenu);
