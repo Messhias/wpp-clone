@@ -40,7 +40,6 @@ export default props => (
                 component={Main}
                 title="Home"
                 hideNavBar={true}
-                initial
             />
             <Scene
                 key='AddContact'

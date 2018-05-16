@@ -32,7 +32,22 @@ export const AddContact = (email) => {
         .once('value')
         .then(snapshot => {
             if (snapshot.val()) {
+                const {
+                    currentUser
+                } = firebase.auth();
+                let userEmail = b64.encode(currentUser.email);
 
+                firebase.database().ref(`/user_contacts/${userEmail}`)
+                    .push({
+                        email: email,
+                        name: ''
+                    })
+                    .then((response) => {
+
+                    })
+                    .catch((err) => {
+
+                    })
             } else {
                 dispatch({
                     type: ADD_NEW_CONTACT_ERROR,
