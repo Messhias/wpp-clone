@@ -1,6 +1,6 @@
 import firebase from 'firebase';
 import b64 from 'base-64';
-
+import _ from 'lodash';
 
 // var config = {
 //     apiKey: "AIzaSyD4_4AXLHP7Kb2GDYTGxE-cVAy8ZC7AVr8",
@@ -32,6 +32,8 @@ export const AddContact = (email) => {
         .once('value')
         .then(snapshot => {
             if (snapshot.val()) {
+                const userData = _.first(_.values(snapshot.val()));
+
                 const {
                     currentUser
                 } = firebase.auth();
@@ -39,8 +41,8 @@ export const AddContact = (email) => {
 
                 firebase.database().ref(`/user_contacts/${userEmail}`)
                     .push({
-                        email: email,
-                        name: ''
+                        email,
+                        name: userData.name
                     })
                     .then((response) => {
 
