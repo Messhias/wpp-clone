@@ -16,7 +16,8 @@ import {
     CHANGE_ADD_CONTACT_EMAIL,
     ADD_NEW_CONTACT,
     ADD_NEW_CONTACT_ERROR,
-    ADD_CONTACT_SUCCESS
+    ADD_CONTACT_SUCCESS,
+    USER_CONTACTS_LIST
 } from './Types';
 
 export const changeAddContactEmail = email => {
@@ -80,3 +81,18 @@ export const enableAddNewContact = () => (
         payload: false
     }
 )
+
+export const userContactsFetch = () => {
+    const { currentUser } = firebase.auth();
+    return (dispatch) => {
+        let email64 = b64.encode(currentUser.email);
+
+        firebase.database().ref(`/user_contacts/${email64}`)
+            .on('value', snapshot => {
+                dispatch({
+                    type: USER_CONTACTS_LIST,
+                    payload: snapshot.val()
+                });
+            });
+    }
+}
