@@ -22,3 +22,4 @@ export const MESSAGE = 'MESSAGE';
 export const CHANGE_MESSAGE = 'CHANGE_MESSAGE';
 export const SEND_MESSAGE = 'SEND_MESSAGE';
 export const USER_CHAT_LIST = 'USER_CHAT_LIST';
+export const SEND_MESSAGE_SUCCESS = 'SEND_MESSAGE_SUCCESS';

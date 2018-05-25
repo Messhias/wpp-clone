@@ -1,4 +1,7 @@
-import { USER_CHAT_LIST } from '../Actions/Types';
+import {
+    USER_CHAT_LIST,
+    SEND_MESSAGE_SUCCESS
+} from '../Actions/Types';
 
 const INITIAL_STATE = {
 

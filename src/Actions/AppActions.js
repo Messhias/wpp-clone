@@ -10,7 +10,8 @@ import {
     USER_CONTACTS_LIST,
     CHANGE_MESSAGE,
     SEND_MESSAGE,
-    USER_CHAT_LIST
+    USER_CHAT_LIST,
+    SEND_MESSAGE_SUCCESS
 } from './Types';
 
 export const changeAddContactEmail = email => {
@@ -114,7 +115,7 @@ export const sendMessage = (message, name, email) => {
                     .push({ message, type: "R"})
                     .then(() => {
                         dispatch({
-                            type: 'INCLUDE_COMPLETE'
+                            type: SEND_MESSAGE_SUCCESS
                         });
                     });
             })

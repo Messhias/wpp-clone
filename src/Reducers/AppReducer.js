@@ -3,7 +3,8 @@ import {
     ADD_NEW_CONTACT_ERROR,
     ADD_CONTACT_SUCCESS,
     SEND_MESSAGE,
-    CHANGE_MESSAGE
+    CHANGE_MESSAGE,
+    SEND_MESSAGE_SUCCESS
 } from '../Actions/Types';
 
 const INITIAL_STATE = {
@@ -24,6 +25,8 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, addContactSuccess: action.payload, emailValue: '', errorAddNewContact: '' };
         case CHANGE_MESSAGE:
             return { ...state, message: action.payload };
+        case SEND_MESSAGE_SUCCESS:
+            return { ...state, message: '' };
         case SEND_MESSAGE:
             return { ...state };
         default:
