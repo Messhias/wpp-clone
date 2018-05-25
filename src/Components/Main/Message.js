@@ -6,16 +6,23 @@ import {
     Text,
     Image
 } from 'react-native';
+
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 import {
     changeMessage,
-    sendMessage
+    sendMessage,
+    chatUserFetch
 } from '../../Actions/AppActions';
 
 class Message extends React.Component {
     constructor(props){
       	super(props);
+    }
+
+    componentWillMount() {
+        this.props.chatUserFetch(this.props.contactEmail);
     }
 
     _sendMessage() {
@@ -24,7 +31,7 @@ class Message extends React.Component {
             contactName,
             contactEmail
         } = this.props;
-        
+
         this.props.sendMessage(message, contactName, contactEmail);
     }
 
@@ -74,13 +81,24 @@ class Message extends React.Component {
 }
 
 
-const mapStateToProps = state => (
-    {
-        message: state.AppReducer.message
-    }
-)
+const mapStateToProps = state => {
+
+    const chat = _.map(state.ChatReducer, (val, id) => {
+        return { ...val, id };
+    });
+
+    console.log(chat);
+    
+    return (
+        {
+            message: state.AppReducer.message,
+            chat
+        }
+    );
+}
 
 export default connect(mapStateToProps, {
     changeMessage,
-    sendMessage
+    sendMessage,
+    chatUserFetch
 })(Message)

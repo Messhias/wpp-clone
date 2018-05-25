@@ -2,16 +2,6 @@ import firebase from 'firebase';
 import b64 from 'base-64';
 import _ from 'lodash';
 
-// var config = {
-//     apiKey: "AIzaSyD4_4AXLHP7Kb2GDYTGxE-cVAy8ZC7AVr8",
-//     authDomain: "wppclone-e6384.firebaseapp.com",
-//     databaseURL: "https://wppclone-e6384.firebaseio.com",
-//     projectId: "wppclone-e6384",
-//     storageBucket: "wppclone-e6384.appspot.com",
-//     messagingSenderId: "562045995907"
-// };
-// firebase.initializeApp(config);
-
 import {
     CHANGE_ADD_CONTACT_EMAIL,
     ADD_NEW_CONTACT,
@@ -31,7 +21,7 @@ export const changeAddContactEmail = email => {
 }
 
 export const AddContact = (email) => {
-    let email64 = b64.encode(email);
+    let email64 = b64.encode(email.toLowerCase());
     return dispatch => {
         firebase.database().ref(`/contacts/${email64}`)
         .once('value')
@@ -113,8 +103,8 @@ export const sendMessage = (message, name, email) => {
 
         const { currentUser } = firebase.auth();
         const userEmail = currentUser.email;
-        const userEmailB64 = b64.encode(userEmail);
-        const contactEmailB64 = b64.encode(email);
+        const userEmailB64 = b64.encode(userEmail.toLowerCase());
+        const contactEmailB64 = b64.encode(email.toLowerCase());
 
         firebase.database().ref(`/messages/${userEmailB64}/${contactEmailB64}`)
             .push({ message, type: "E" })
@@ -124,8 +114,8 @@ export const sendMessage = (message, name, email) => {
                     .push({ message, type: "R"})
                     .then(() => {
                         dispatch({
-                            TYPE: 'INCLUDE_COMPLETE'
-                        })
+                            type: 'INCLUDE_COMPLETE'
+                        });
                     });
             })
             .then(() => {
@@ -136,11 +126,11 @@ export const sendMessage = (message, name, email) => {
             })
             .then(() => {
                 // store headers chat user
-                const userData = _.first(_.values(snapshot.val()));
-                firebase.database.ref(`/contacts/${userEmailB64}`)
+                firebase.database().ref(`/contacts/${userEmailB64}`)
                     .once("value")
                     .then((snapshot) => {
-                        firebase.database.ref(`/users_messages/${contactEmailB64}/${userEmailB64}`)
+                        const userData = _.first(_.values(snapshot.val()));
+                        firebase.database().ref(`/users_messages/${contactEmailB64}/${userEmailB64}`)
                         .set({ name: userData.name, email });
                     });
             })
@@ -157,7 +147,7 @@ export const chatUserFetch = email => {
     const { currentUser } = firebase.auth();
     const userEmail = currentUser.email;
     const userEmailB64 = b64.encode(userEmail);
-    const contactEmailB64 = b64.encode(email);
+    const contactEmailB64 = b64.encode(email.toLowerCase());
 
     return dispatch => {
         firebase.database().ref(`/messages/${userEmailB64}/${contactEmailB64}`)

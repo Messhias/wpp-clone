@@ -51,9 +51,9 @@ export const registerUser = ({ name, email, password }) => {
             type: LOADING
         });
 
-        firebase.auth().createUserWithEmailAndPassword(email, password)
+        firebase.auth().createUserWithEmailAndPassword(email.toLowerCase(), password)
             .then((user) => {
-                let emailB64 = b64.encode(email);
+                let emailB64 = b64.encode(email.toLowerCase());
 
                 firebase.database().ref(`/contacts/${emailB64}`).push({
                     name
@@ -96,7 +96,7 @@ export const login = (email, password) => {
             type: LOADING
         });
 
-        firebase.auth().signInWithEmailAndPassword(email, password)
+        firebase.auth().signInWithEmailAndPassword(email.toLowerCase(), password)
             .then(resp => {
                 loginSuccess(dispatch);
             })
