@@ -28,6 +28,9 @@ class Message extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        if (this.props.contactEmail != nextProps.contactEmail) {
+            this.props.chatUserFetch(nextProps.contactEmail);
+        }
         this.createDataSource(nextProps.chat);
     }
 
