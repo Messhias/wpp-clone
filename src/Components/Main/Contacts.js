@@ -2,18 +2,19 @@ import React from 'react';
 import {
   View,
   Text,
-  ListView
+  ListView,
+  TouchableHighlight
 } from 'react-native';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 import _ from 'lodash';
 
 import { userContactsFetch } from '../../Actions/AppActions';
 
 
-class Contacts extends React.Component{
+class Contacts extends React.Component {
     constructor(props){
       	super(props);
-
     }
 
     componentWillMount() {
@@ -30,33 +31,42 @@ class Contacts extends React.Component{
         this.dataSource =  ds.cloneWithRows(contacts);
     }
 
+    renderRow(contact) {
+      return (
+        <TouchableHighlight
+            onPress={() => Actions.message({
+              title: contact.name !== null ? contact.name : '',
+              contactName: contact.name !== null ? contact.name : '',
+              contactEmail: contact.email !== null ? contact.email : ''
+            })}
+        >
+            <View style={{
+                flex: 1,
+                padding: 20,
+                borderBottomWidth: 1,
+                borderColor: '#CCC'
+            }}>
+                <Text style={{
+                    fontSize: 25
+                  }}>
+                  {contact.name}
+                </Text>
+                <Text style={{
+                    fontSize: 18
+                  }}>
+                  {contact.email}
+                </Text>
+            </View>
+        </TouchableHighlight>
+      );
+    }
+
     render() {
         return (
             <ListView
                 enableEmptySections
                 dataSource={this.dataSource}
-                renderRow={data => {
-                    return (
-                      <View style={{
-                          flex: 1,
-                          padding: 20,
-                          borderBottomWidth: 1,
-                          borderColor: '#CCC'
-                        }}>
-                        <Text style={{
-                            fontSize: 25
-                          }}>
-                          {data.name}
-                        </Text>
-                        <Text style={{
-                            fontSize: 18
-                          }}>
-                          {data.email}
-                        </Text>
-                      </View>
-                    );
-                  }
-                }
+                renderRow={this.renderRow}
             />
         );
     }

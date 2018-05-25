@@ -10,6 +10,7 @@ import FormRegister from './Components/FormRegister';
 import Welcome from './Components/Welcome';
 import Main from './Components/Main';
 import AddContact from './Components/Contacts/Add';
+import Message from './Components/Main/Message';
 
 export default props => (
     <Router
@@ -45,6 +46,12 @@ export default props => (
                 key='AddContact'
                 component={AddContact}
                 title="New contact"
+                hideNavBar={false}
+            />
+            <Scene
+                key='message'
+                component={Message}
+                title="Chat"
                 hideNavBar={false}
             />
         </Stack>
