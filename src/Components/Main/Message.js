@@ -4,7 +4,8 @@ import {
     TouchableHighlight,
     TextInput,
     Text,
-    Image
+    Image,
+    ListView
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -23,6 +24,11 @@ class Message extends React.Component {
 
     componentWillMount() {
         this.props.chatUserFetch(this.props.contactEmail);
+        this.createDataSource(this.props.chat);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.createDataSource(nextProps.chat);
     }
 
     _sendMessage() {
@@ -33,6 +39,63 @@ class Message extends React.Component {
         } = this.props;
 
         this.props.sendMessage(message, contactName, contactEmail);
+    }
+
+    createDataSource(chat) {
+        const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+
+        this.dataSource = ds.cloneWithRows(chat);
+    }
+
+    renderRow(text) {
+        if (text.type === "E") {
+            return (
+                <View
+                    style={{
+                        alignItems: 'flex-end',
+                        marginTop: 5,
+                        marginBottom: 5,
+                        marginLeft: 40
+                    }}
+                >
+                    <Text
+                        style={{
+                            fontSize: 18,
+                            color: '#000',
+                            padding: 10,
+                            backgroundColor: '#DBF5D4',
+                            elevation: 2,
+                            borderRadius: 10
+                        }}
+                    >
+                        {text.message}
+                    </Text>
+                </View>
+            );
+        }
+        return (
+            <View
+                style={{
+                    alignItems: 'flex-start',
+                    marginTop: 5,
+                    marginBottom: 5,
+                    marginRight: 40
+                }}
+            >
+                <Text
+                    style={{
+                        fontSize: 18,
+                        color: '#000',
+                        padding: 10,
+                        backgroundColor: '#F7F7F7',
+                        elevation: 2,
+                        borderRadius: 10
+                    }}
+                >
+                    {text.message}
+                </Text>
+            </View>
+        );
     }
 
     render() {
@@ -50,7 +113,11 @@ class Message extends React.Component {
                         paddingBottom: 20,
                     }}
                 >
-
+                    <ListView
+                        enableEmptySections
+                        dataSource={this.dataSource}
+                        renderRow={this.renderRow}
+                    />
                 </View>
                 <View
                     style={{
@@ -87,8 +154,6 @@ const mapStateToProps = state => {
         return { ...val, id };
     });
 
-    console.log(chat);
-    
     return (
         {
             message: state.AppReducer.message,
