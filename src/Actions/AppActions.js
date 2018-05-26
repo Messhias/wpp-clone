@@ -168,7 +168,7 @@ export const chatListFetch = () => {
     } = firebase.auth();
 
     return dispatch => {
-        let user = b64.encode(currentUser.email);
+        const user = b64.encode(currentUser.email);
 
         firebase.database().ref(`/users_messages/${user}`)
             .on('value', snapshot => {

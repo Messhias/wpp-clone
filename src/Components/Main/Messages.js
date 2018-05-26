@@ -1,29 +1,46 @@
-import React from 'react';
-import {
-  View,
-  Text
-} from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, ListView } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-
 import { chatListFetch } from '../../Actions/AppActions';
-import ChatListReducer from '../../Reducers/ChatListReducer';
 
-class Message extends React.Component {
+class Messages extends React.Component {
 
     componentWillMount() {
         this.props.chatListFetch();
+        this.criaFonteDeDados(this.props.chats);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.criaFonteDeDados(nextProps.chats);
+    }
+
+    criaFonteDeDados( chats ) {
+        const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+
+        this.dataSource = ds.cloneWithRows( chats );
+    }
+
+    renderRow(chats) {
+        return (
+            <View style={{ flex: 1, padding: 20, borderBottomWidth: 1, borderColor: "#ccc" }}>
+                <Text style={{ fontSize: 25 }}>{chats.name}</Text>
+            </View>
+        );
     }
 
     render() {
         return (
-            <View>
-            </View>
+            <ListView
+                enableEmptySections
+                dataSource={this.dataSource}
+                renderRow={this.renderRow}
+            />
         );
     }
 }
 
-const mapStateToProps = state => {
+mapStateToProps = state => {
     const chats = _.map(state.ChatListReducer, (val, uid) => {
         return { ...val, uid };
     });
@@ -33,6 +50,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, {
-    chatListFetch
-})(Message);
+export default connect(mapStateToProps, { chatListFetch })(Messages);
