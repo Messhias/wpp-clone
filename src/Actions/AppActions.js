@@ -11,7 +11,8 @@ import {
     CHANGE_MESSAGE,
     SEND_MESSAGE,
     USER_CHAT_LIST,
-    SEND_MESSAGE_SUCCESS
+    SEND_MESSAGE_SUCCESS,
+    CHAT_LIST_FETCH
 } from './Types';
 
 export const changeAddContactEmail = email => {
@@ -158,5 +159,23 @@ export const chatUserFetch = email => {
                     payload: snapshot.val()
                 })
             })
+    }
+}
+
+export const chatListFetch = () => {
+    const {
+        currentUser
+    } = firebase.auth();
+
+    return dispatch => {
+        let user = b64.encode(currentUser.email);
+
+        firebase.database().ref(`/users_messages/${user}`)
+            .on('value', snapshot => {
+                dispatch({
+                    type: CHAT_LIST_FETCH,
+                    payload: snapshot.val()
+                })
+            });
     }
 }
