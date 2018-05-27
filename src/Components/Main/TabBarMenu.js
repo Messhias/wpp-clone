@@ -42,7 +42,7 @@ const TabBarMenu = props => (
 	                marginTop: 20
 	            }}
 	          >
-	              WppClone
+	              My MESSAGE
 	          </Text>
 	        </View>
 

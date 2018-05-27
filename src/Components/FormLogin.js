@@ -63,7 +63,7 @@ class frmLogin extends React.Component {
 
                     <View style={styles.formTitleContainer}>
                         <Text style={styles.FormTitle}>
-                            WPPCLONE
+                            My MESSAGE
                         </Text>
                     </View>
 
