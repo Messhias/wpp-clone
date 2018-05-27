@@ -1,4 +1,5 @@
 import React from 'react';
+import firebase from 'firebase';
 import {
   View,
   Text,
@@ -75,14 +76,18 @@ const TabBarMenu = props => (
 						justifyContent: 'center'
 					}}
 				>
-              		<Text
-						style={{
-							fontSize: 20,
-							color: 'white',
-						}}
-					>
-                  		Logout
-              		</Text>
+                    <TouchableHighlight
+                        onPress={() => firebase.auth().signOut().then(() => Actions.frmLogin())}
+                    >
+                  		<Text
+    						style={{
+    							fontSize: 20,
+    							color: 'white',
+    						}}
+    					>
+                      		Logout
+                  		</Text>
+                    </TouchableHighlight>
 	          	</View>
 	        </View>
 		</View>
