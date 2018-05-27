@@ -4,21 +4,23 @@ This is a repository to study react native features, redux and another libs of u
 
 # Install
 
-'''
+```
 npm install
-'''
+```
+
 
 # Running
 
-'''
+```
 react-native run-ios
-'''
+```
 
 or
 
-'''
+```
 react-native run-android
-'''
+```
+
 
 # PRINT's
 
