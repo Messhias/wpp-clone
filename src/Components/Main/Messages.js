@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
-import { View, Text, ListView } from 'react-native';
+import {
+    View,
+    Text,
+    ListView,
+    TouchableHighlight
+} from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import { Actions } from 'react-native-router-flux';
+
+
 import { chatListFetch } from '../../Actions/AppActions';
 
 class Messages extends React.Component {
@@ -23,9 +31,18 @@ class Messages extends React.Component {
 
     renderRow(chats) {
         return (
-            <View style={{ flex: 1, padding: 20, borderBottomWidth: 1, borderColor: "#ccc" }}>
-                <Text style={{ fontSize: 25 }}>{chats.name}</Text>
-            </View>
+            <TouchableHighlight
+                onPress={() => Actions.message({
+                      title: chats.name !== null ? chats.name : '',
+                      contactName: chats.name !== null ? chats.name : '',
+                      contactEmail: chats.email !== null ? chats.email : ''
+                    })
+                }
+            >
+                <View style={{ flex: 1, padding: 20, borderBottomWidth: 1, borderColor: "#ccc" }}>
+                        <Text style={{ fontSize: 25 }}>{chats.name}</Text>
+                </View>
+            </TouchableHighlight>
         );
     }
 
